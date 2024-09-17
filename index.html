@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz día de la psicopedagoga</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1, h2, p {
+            opacity: 0;
+            transition: opacity 2s ease-in;
+        }
+
+        h1.show, h2.show, p.show {
+            opacity: 1;
+        }
+
+        #fireworks-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        #love-message {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 1.2em;
+            opacity: 0;
+            transition: opacity 2s ease-in;
+        }
+
+        #love-message.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="fireworks-container"></div>
+
+    <h1 id="main-title">¡Feliz día de la psicopedagoga!</h1>
+    <h2 id="subtitle">Para mi futura psicope</h2>
+    <p id="message">Te amo mucho, todo era una sorpresa</p>
+
+    <div id="love-message">Te amo muchísimo, espero que te guste este prototipo mi amor <3</div>
+
+    <script>
+        // Mostrar el texto con un retraso
+        setTimeout(() => {
+            document.getElementById("main-title").classList.add("show");
+        }, 2000);
+
+        setTimeout(() => {
+            document.getElementById("subtitle").classList.add("show");
+        }, 4000);
+
+        setTimeout(() => {
+            document.getElementById("message").classList.add("show");
+        }, 6000);
+
+        setTimeout(() => {
+            document.getElementById("love-message").classList.add("show");
+        }, 8000);
+
+        // Función para crear fuegos artificiales realistas
+        function createFirework(x) {
+            const container = document.getElementById("fireworks-container");
+            const firework = document.createElement("div");
+            firework.style.position = "absolute";
+            firework.style.left = `${x}px`;
+            firework.style.bottom = "0";
+            firework.style.width = "3px";
+            firework.style.height = "80px";
+            firework.style.backgroundColor = "white";
+            firework.style.boxShadow = "0 0 6px white";
+            firework.style.transition = "transform 1s ease-in, opacity 0.5s ease-out";
+
+            container.appendChild(firework);
+
+            // Disparar el fuego artificial hacia arriba
+            setTimeout(() => {
+                firework.style.transform = `translateY(-500px)`;
+            }, 10);
+
+            // Explosión de fuegos artificiales en el cielo
+            setTimeout(() => {
+                createExplosion(x, 100);
+                firework.style.opacity = 0;
+            }, 1000);
+
+            // Eliminar el rastro después de explotar
+            setTimeout(() => {
+                container.removeChild(firework);
+            }, 1500);
+        }
+
+        // Función para crear una explosión de fuegos artificiales
+        function createExplosion(x, y) {
+            const container = document.getElementById("fireworks-container");
+            const colors = ["red", "blue", "green", "yellow", "purple", "pink", "orange"];
+            const numberOfParticles = 30; // Cantidad de partículas de la explosión
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement("div");
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.position = "absolute";
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.width = "5px";
+                particle.style.height = "5px";
+                particle.style.backgroundColor = randomColor;
+                particle.style.borderRadius = "50%";
+                particle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
+                particle.style.transition = "transform 1s ease-out, opacity 1s ease-out";
+
+                container.appendChild(particle);
+
+                // Animación de las partículas de la explosión
+                const angle = Math.random() * 2 * Math.PI; // Ángulo aleatorio
+                const distance = Math.random() * 200 + 50;  // Distancia aleatoria
+
+                particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+
+                setTimeout(() => {
+                    particle.style.opacity = 0;
+                }, 500);
+
+                // Eliminar la partícula después de la animación
+                setTimeout(() => {
+                    container.removeChild(particle);
+                }, 1000);
+            }
+        }
+
+        // Función para disparar fuegos artificiales de forma continua
+        function randomFireworks() {
+            const x = Math.random() * window.innerWidth;
+            createFirework(x);
+        }
+
+        // Disparar fuegos artificiales a intervalos regulares
+        setInterval(randomFireworks, 500);
+    </script>
+</body>
+</html>
